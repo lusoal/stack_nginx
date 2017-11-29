@@ -1,0 +1,3 @@
+nome_site: "Testando Nginx"
+sites_available: /etc/nginx/sites-available
+sites_enabled: /etc/nginx/sites-enabled

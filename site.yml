@@ -1,0 +1,24 @@
+---
+- name: apply the common configuration to all hosts
+  hosts: all
+  remote_user: ec2-user
+  become: yes
+
+  roles:
+  - common
+
+- name: apply the nginx
+  hosts: webservers
+  remote_user: ec2-user
+  become: yes
+
+  roles:
+  - nginx
+
+- name: apply git
+  hosts: webservers
+  remote_user: ec2-user
+  become: yes
+
+  roles:
+  - web

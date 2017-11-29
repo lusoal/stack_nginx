@@ -1,0 +1,21 @@
+---
+- name: install git
+  yum:
+    name: git
+    state: present
+
+- name: initi git
+  git:
+    repo: https://github.com/mcasquel/defendermmc.git
+    dest: /var/www/lucas-site
+
+- name: set permissions
+  file:
+    name: /var/www/lucas-site/index.html
+    mode: 0755
+
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+# tasks file for web

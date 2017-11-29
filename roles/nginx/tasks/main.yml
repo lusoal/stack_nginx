@@ -1,0 +1,42 @@
+---
+- name: install nginx
+  yum:
+    name: nginx
+    state: present
+    # enabled: yes
+
+- name: start nginx
+  service:
+    name: nginx
+    state: started
+
+# - name: create website directorie
+#   file:
+#     path: /var/www/lucas-site
+#     state: directory
+
+# - name: copy index html
+#   template:
+#     src: index.html.j2
+#     dest: /var/www/lucas-site/index.html
+
+- name: create sites directories
+  file: path={{item}} state=directory
+  with_items:
+    - "{{sites_available}}"
+    - "{{sites_enabled}}"
+
+- name: copy nginx conf
+  template: src=nginx.conf dest=/etc/nginx/nginx.conf
+
+- name: copy lucas conf
+  template: src=site-lucas.conf dest="{{sites_available}}"
+
+- name: link site-lucas
+  file: src="{{sites_available}}/site-lucas.conf" dest={{sites_enabled}}/site-lucas.conf state=link
+
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+# tasks file for nginx
